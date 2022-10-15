@@ -3,11 +3,16 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import PySimpleGUI as sg
+import streamlit as st
 
-price_history = yf.Ticker('AAPL').history(period='2y', # valid periods: 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
-                                   interval='1wk', # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
-                                   actions=False)
+st.write("""
+# Stock Kitty
+Price analysis of the stock of your choice!
+""")
 
-plt.plot(price_history['Close'])
-plt.ylabel('some numbers')
-plt.show()
+tksym = 'AAPL'
+tk = yf.Ticker(tksym)
+hist = tk.history(period='1d', start='2010-5-31', end='2020-5-31')
+
+st.line_chart(hist.Close)
+st.line_chart(hist.Volume)
